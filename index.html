@@ -1,0 +1,67 @@
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+    <title>RASPBERRY PI WS2812</title>
+  </head>
+  <body>
+    <!--LED制御用のボタン--> 
+    <table border="1" width="50%">
+      <tbody>
+        <tr>
+          <td> <input value="SpectrumChart" onclick="button('led1')" type="button"><br>
+          </td>
+          <td><input value="守ろう右側通行" onclick="button('led2')" type="button"><br>
+          </td>
+          <td><input value="値上げ断固反対" onclick="button('led3')" type="button"><br>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3">
+	          <input type="text" id="mytextbox" name="mytext" size="40" maxlength="20" autocomplete="on">
+	          <input value="send text" onclick="sendtext()" type="submit">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <br>
+    <br>
+		<script type="text/javascript"
+		src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script type="text/javascript">
+            // ボタンが押された時に呼び出されるスクリプト
+            function button(value) {
+                post('code', value);
+            }
+            
+            // テキスト送信が押された時に呼び出されるスクリプト
+            function sendtext(value) {
+              //var txt = $("input[name='mytext']").val();
+              var txt = document.getElementById('mytextbox').value;
+                  
+                  /// console.log(document.getElementById("mytextbox"));
+                request = new XMLHttpRequest();
+
+                // ポストメッセージを送信
+                var send = 'text=' + txt;
+                request.open('POST','/serial',true);
+                request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+              //request.setRequestHeader('Content-Length', send.length);
+              //request.setRequestHeader('Connection', 'close');
+                request.send(send);
+            }
+          
+          function post(key,value){
+                request = new XMLHttpRequest();
+                // ポストメッセージを送信
+                var send = key + "=" + value;
+                request.open('POST','/serial',true);
+                request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+                request.setRequestHeader('Content-Length', send.length);
+                request.setRequestHeader('Connection', 'close');
+                request.send(send);
+          }
+            
+        </script>
+  </body>
+</html>
