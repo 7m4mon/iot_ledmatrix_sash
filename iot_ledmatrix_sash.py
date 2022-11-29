@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 # -*- encoding:utf8 -*-
 
 # IoT ledmatrix sash [tasuki]
@@ -8,7 +7,7 @@
 # Execute with add '-s' opthon, enables HTTP Server.
 # When execute without option, shows rainbow and image file and string. (see main function)
 
-# useage:
+# useage(w/ webserver):
 # sudo python iot_ledmatrix_sash.py -s
 
 # Using Lbrary : Neopixel (https://github.com/jgarff/rpi_ws281x)
@@ -18,7 +17,7 @@
 # Tested with Raspberry Pi Type B and Raspberry Pi Zero W 
 
 import time
-from neopixel import *
+from rpi_ws281x import PixelStrip, Color
 import argparse
 
 from PIL import Image, ImageOps
@@ -84,7 +83,7 @@ GPIO.add_event_detect(PIN_POWER_SW, GPIO.FALLING, callback=shutdown_by_sw, bounc
 
 
 # Create NeoPixel object with appropriate configuration.
-strip = Adafruit_NeoPixel(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
+strip = PixelStrip(LED_COUNT, LED_PIN, LED_FREQ_HZ, LED_DMA, LED_INVERT, LED_BRIGHTNESS, LED_CHANNEL)
 
 class MyHandler(SimpleHTTPRequestHandler):
     def do_POST(self):
